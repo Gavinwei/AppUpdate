@@ -7,7 +7,11 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.FileCallBack;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONException;
+
 import java.io.File;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -35,8 +39,8 @@ public class UpdateAppHttpUtil implements HttpManager {
                 .build()
                 .execute(new StringCallback() {
                     @Override
-                    public void onError(Call call, Response response, Exception e, int id) {
-                        callBack.onError(validateError(e, response));
+                    public void onError(Call call, Exception e, int id) {
+                        callBack.onError(e.getMessage());
                     }
 
                     @Override
@@ -61,8 +65,8 @@ public class UpdateAppHttpUtil implements HttpManager {
                 .build()
                 .execute(new StringCallback() {
                     @Override
-                    public void onError(Call call, Response response, Exception e, int id) {
-                        callBack.onError(validateError(e, response));
+                    public void onError(Call call, Exception e, int id) {
+                        callBack.onError(e.getMessage());
                     }
 
                     @Override
@@ -93,9 +97,10 @@ public class UpdateAppHttpUtil implements HttpManager {
                     }
 
                     @Override
-                    public void onError(Call call, Response response, Exception e, int id) {
-                        callback.onError(validateError(e, response));
+                    public void onError(Call call, Exception e, int id) {
+                        callback.equals(e.getMessage());
                     }
+
 
                     @Override
                     public void onResponse(File response, int id) {
@@ -111,4 +116,5 @@ public class UpdateAppHttpUtil implements HttpManager {
                 });
 
     }
+
 }

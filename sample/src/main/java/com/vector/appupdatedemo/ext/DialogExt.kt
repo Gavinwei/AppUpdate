@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.vector.appupdatedemo.ext
 
 import android.app.ProgressDialog
@@ -35,7 +37,7 @@ fun Fragment.dialog(
         title: String? = null,
         message: String? = null,
         init: (KAlertDialogBuilder.() -> Unit)? = null
-) = activity.dialog(title, message, init)
+) = activity!!.dialog(title, message, init)
 
 fun Context.dialog(
         title: String? = null,
@@ -51,7 +53,7 @@ fun Fragment.dialog(
         @StringRes message: Int,
         @StringRes title: Int? = null,
         init: (KAlertDialogBuilder.() -> Unit)? = null
-) = activity.dialog(message, title, init)
+) = activity!!.dialog(message, title, init)
 
 fun Context.dialog(
         @StringRes message: Int,
@@ -63,7 +65,7 @@ fun Context.dialog(
     if (init != null) init()
 }
 
-fun Fragment.dialog(init: KAlertDialogBuilder.() -> Unit): KAlertDialogBuilder = activity.dialog(init)
+fun Fragment.dialog(init: KAlertDialogBuilder.() -> Unit): KAlertDialogBuilder = activity!!.dialog(init)
 
 fun Context.dialog(init: KAlertDialogBuilder.() -> Unit) = KAlertDialogBuilder(this).apply { init() }
 
@@ -71,7 +73,7 @@ fun Fragment.progressDialog(
         @StringRes message: Int? = null,
         @StringRes title: Int? = null,
         init: (ProgressDialog.() -> Unit)? = null
-) = activity.progressDialog(message, title, init)
+) = activity!!.progressDialog(message, title, init)
 
 fun Context.progressDialog(
         @StringRes message: Int? = null,
@@ -83,7 +85,7 @@ fun Fragment.indeterminateProgressDialog(
         @StringRes message: Int? = null,
         @StringRes title: Int? = null,
         init: (ProgressDialog.() -> Unit)? = null
-) = activity.progressDialog(message, title, init)
+) = activity?.progressDialog(message, title, init)
 
 fun Context.indeterminateProgressDialog(
         @StringRes message: Int? = null,
@@ -95,7 +97,7 @@ fun Fragment.progressDialog(
         message: String? = null,
         title: String? = null,
         init: (ProgressDialog.() -> Unit)? = null
-) = activity.progressDialog(message, title, init)
+) = activity?.progressDialog(message, title, init)
 
 fun Context.progressDialog(
         message: String? = null,
@@ -107,7 +109,7 @@ fun Fragment.indeterminateProgressDialog(
         message: String? = null,
         title: String? = null,
         init: (ProgressDialog.() -> Unit)? = null
-) = activity.indeterminateProgressDialog(message, title, init)
+) = activity?.indeterminateProgressDialog(message, title, init)
 
 fun Context.indeterminateProgressDialog(
         message: String? = null,
@@ -133,7 +135,7 @@ fun Fragment.sheet(
         title: CharSequence? = null,
         items: List<CharSequence>,
         onClick: (Int) -> Unit
-) = activity.sheet(title, items, onClick)
+) = activity!!.sheet(title, items, onClick)
 
 fun Context.sheet(
         title: CharSequence? = null,

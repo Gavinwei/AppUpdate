@@ -2,6 +2,7 @@ package com.vector.update_app;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,6 +38,7 @@ import com.vector.update_app.service.DownloadService;
 import com.vector.update_app.utils.AppUpdateUtils;
 import com.vector.update_app.utils.ColorUtil;
 import com.vector.update_app.utils.DrawableUtil;
+import com.vector.update_app.utils.PermissionSetUtils;
 import com.vector.update_app.view.NumberProgressBar;
 
 import java.io.File;
@@ -102,7 +104,6 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
 
 
         mActivity = getActivity();
-
 
 
     }
@@ -281,6 +282,31 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
         mIgnore.setOnClickListener(this);
     }
 
+
+    public void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // 设置参数
+        builder.setTitle("是否进入设置界面授权")
+                .setMessage(TIPS)
+                .setPositiveButton("前往", new DialogInterface.OnClickListener() {// 积极
+
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        new PermissionSetUtils(getActivity()).jumpPermissionPage();
+
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {// 消极
+
+            @Override
+            public void onClick(DialogInterface dialog,
+                                int which) {
+                dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
     @Override
     public void onClick(View view) {
         int i = view.getId();
@@ -291,7 +317,9 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
             if (flag != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     // 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。
-                    Toast.makeText(getActivity(), TIPS, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity(), TIPS, Toast.LENGTH_LONG).show();
+                    showAlertDialog();
+
                 } else {
                     // 申请授权。
                     requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
