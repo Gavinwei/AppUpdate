@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 //apply plugin: 'com.novoda.bintray-release'//添加
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.Gavinwead'
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
