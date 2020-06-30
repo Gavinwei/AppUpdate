@@ -1,22 +1,17 @@
 package com.vector.appupdatedemo.http;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.vector.update_app.HttpManager;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.FileCallBack;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import org.json.JSONException;
-
 import java.io.File;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
 import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by Vector

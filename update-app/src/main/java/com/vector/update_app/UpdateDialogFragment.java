@@ -11,11 +11,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -31,6 +28,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.vector.update_app.listener.ExceptionHandler;
 import com.vector.update_app.listener.ExceptionHandlerHelper;
 import com.vector.update_app.listener.IUpdateDialogFragmentListener;
@@ -38,6 +40,7 @@ import com.vector.update_app.service.DownloadService;
 import com.vector.update_app.utils.AppUpdateUtils;
 import com.vector.update_app.utils.ColorUtil;
 import com.vector.update_app.utils.DrawableUtil;
+import com.vector.update_app.utils.LongClickUtils;
 import com.vector.update_app.utils.PermissionSetUtils;
 import com.vector.update_app.view.NumberProgressBar;
 
@@ -274,6 +277,13 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
         mNumberProgressBar.setReachedBarColor(color);
         //随背景颜色变化
         mUpdateOkButton.setTextColor(ColorUtil.isTextColorDark(color) ? Color.BLACK : Color.WHITE);
+        LongClickUtils.setLongClick(new Handler(), mTopIv, 3000, new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                UpdateDialogFragment.this.dismiss();
+                return true;
+            }
+        });
     }
 
     private void initEvents() {
@@ -288,7 +298,8 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
         // 设置参数
         builder.setTitle("是否进入设置界面授权")
                 .setMessage(TIPS)
-                .setPositiveButton("前往", new DialogInterface.OnClickListener() {// 积极
+                // 积极
+                .setPositiveButton("前往", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog,
@@ -405,9 +416,7 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
     private void startDownloadApp(DownloadService.DownloadBinder binder) {
         // 开始下载，监听下载进度，可以用对话框显示
         if (mUpdateApp != null) {
-
             this.mDownloadBinder = binder;
-
             binder.start(mUpdateApp, new DownloadService.DownloadCallback() {
                 @Override
                 public void onStart() {
